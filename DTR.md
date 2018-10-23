@@ -7,7 +7,7 @@
 Brandon Fiebiger - I wanted to get better as using React Native, become familiar with Python and how to incorporate camera shot technology
 into a real world application
 
-Chris - I want to be able to easily integrate a tech stack that I'm not as familiar with specifically React and Python/Flask.
+Chris - I want to be able to easily integrate a tech stack that I'm not as familiar with, specifically React and Python/Flask.
 
 Kurt - I want to become comfortable with building a mobile application using React Native and learn more about backend architecture.
 
