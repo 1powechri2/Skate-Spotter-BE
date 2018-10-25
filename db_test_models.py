@@ -22,6 +22,8 @@ class SkateSpot(Base):
 
     photos = relationship('Photo')
 
+    favorites = relationship('Favorites')
+
     skaters = relationship(
     'Skater',
     secondary='favorites'
@@ -35,7 +37,9 @@ class Skater(Base):
 
     spots = relationship('SkateSpot')
 
-    favorites = relationship(
+    favorites = relationship('Favorites')
+
+    favorite_spots = relationship(
     'SkateSpot',
     secondary='favorites'
     )
