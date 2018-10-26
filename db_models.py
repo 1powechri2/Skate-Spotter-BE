@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Integer, String, Column, Numeric, ForeignKey, Boolean
+from sqlalchemy import create_engine, Integer, String, Column, Float, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
@@ -16,8 +16,8 @@ class SkateSpot(Base):
     description = Column(String(255), nullable=False)
     name = Column(String(60), nullable=False)
     street_name = Column(String(100), nullable=True)
-    latittude = Column(Numeric(precision=12, asdecimal=True), nullable=False)
-    longitude = Column(Numeric(precision=12, asdecimal=True), nullable=False)
+    latitude = Column(Float(Precision=64), nullable=False)
+    longitude = Column(Float(Precision=64), nullable=False)
     skater_id = Column(Integer, ForeignKey('skater.id'))
 
     photos = relationship('Photo')
@@ -57,4 +57,5 @@ class Favorites(Base):
     spot_id = Column(Integer, ForeignKey('skate_spot.id'))
     rating = Column(Boolean, default=True)
 
+# drop_db = Base.metadata.drop_all(engine)
 migrate_db = Base.metadata.create_all(engine)

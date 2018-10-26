@@ -1,7 +1,5 @@
 import db_models
 
-db_models.migrate_db
-
 session = db_models.Session()
 
 dood1 = db_models.Skater(name='Dod', tag='Skate, OverDose, Die')
@@ -12,11 +10,11 @@ session.add_all([dood1, dood2])
 session.commit()
 
 spot1 = db_models.SkateSpot(description='Big Ramp',
-name='Hell', street_name='666 rock st.', latittude=12.123456,
-longitude=40.456123, skater_id=dood1.id)
+name='Some Campus', street_name='2626 university st.', latitude=14.123456,
+longitude=44.456123, skater_id=dood1.id)
 
 spot2 = db_models.SkateSpot(description='Big Ramp',
-name='Hell', street_name='666 rock st.', latittude=12.123456,
+name='Hell', street_name='666 rock st.', latitude=12.123456,
 longitude=40.456123, skater_id=dood2.id)
 
 session.add_all([spot1, spot2])
