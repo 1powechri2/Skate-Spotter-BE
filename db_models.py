@@ -1,10 +1,12 @@
 from sqlalchemy import create_engine, Integer, String, Column, Numeric, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 
 db_uri = 'postgresql://dada:sphyack1@localhost/skate_spotting'
 
 engine = create_engine(db_uri)
+
+Session = sessionmaker(engine)
 
 Base = declarative_base()
 
@@ -20,6 +22,8 @@ class SkateSpot(Base):
 
     photos = relationship('Photo')
 
+    favorites = relationship('Favorites')
+
     skaters = relationship(
     'Skater',
     secondary='favorites'
@@ -33,7 +37,9 @@ class Skater(Base):
 
     spots = relationship('SkateSpot')
 
-    favorites = relationship(
+    favorites = relationship('Favorites')
+
+    favorite_spots = relationship(
     'SkateSpot',
     secondary='favorites'
     )
@@ -51,5 +57,4 @@ class Favorites(Base):
     spot_id = Column(Integer, ForeignKey('skate_spot.id'))
     rating = Column(Boolean, default=True)
 
-drop_db = Base.metadata.drop_all(engine)
 migrate_db = Base.metadata.create_all(engine)
