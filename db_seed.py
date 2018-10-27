@@ -1,19 +1,24 @@
 import db_models
 
+engine = db_models.engine
+
+db_models.Base.metadata.drop_all(engine)
+
+db_models.Base.metadata.create_all(engine)
+
 session = db_models.Session()
 
-dood1 = db_models.Skater(name='Dod', tag='Skate, OverDose, Die')
-
-dood2 = db_models.Skater(name='Gob', tag='Eat rats!')
+dood1 = db_models.Skater(name='Dod Gobson', tag='Skate Hard, Die Young')
+dood2 = db_models.Skater(name='Johnny Razors', tag='Embrace fire!')
 
 session.add_all([dood1, dood2])
 session.commit()
 
-spot1 = db_models.SkateSpot(description='Big Ramp',
+spot1 = db_models.SkateSpot(description='Loads of stairs, tons of rails',
 name='Some Campus', street_name='2626 university st.', latitude=14.123456,
 longitude=44.456123, skater_id=dood1.id)
 
-spot2 = db_models.SkateSpot(description='Big Ramp',
+spot2 = db_models.SkateSpot(description='Tipped over porta throne',
 name='Hell', street_name='666 rock st.', latitude=12.123456,
 longitude=40.456123, skater_id=dood2.id)
 

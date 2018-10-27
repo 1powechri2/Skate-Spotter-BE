@@ -56,6 +56,3 @@ class Favorites(Base):
     skater_id = Column(Integer, ForeignKey('skater.id'))
     spot_id = Column(Integer, ForeignKey('skate_spot.id'))
     rating = Column(Boolean, default=True)
-
-# drop_db = Base.metadata.drop_all(engine)
-migrate_db = Base.metadata.create_all(engine)
