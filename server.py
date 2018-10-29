@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, jsonify, redirect, url_for, session
 from db_models import SkateSpot, Skater, Photo, Favorites
 from IPython import embed
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import db_models
 import json
 import os
@@ -110,9 +110,44 @@ def create_skater():
     term.add(skater)
     term.commit()
 
-    session['current_user'] = skater.id
+    session['user_id'] = skater.id
 
-    return redirect(url_for('request_skaters'))
+    return redirect(url_for('skater_page'))
+
+@app.route('/api/v1/login', methods=['POST'])
+def login_skater():
+    skater_json = json.loads(request.data)
+    skater = term.query(Skater).filter(Skater.name == skater_json['name'])
+
+    if check_password_hash(skater[0].password, skater_json['password']) == True:
+        session['user_id'] = skater[0].id
+
+        return redirect(url_for('skater_page'))
+    else:
+        {'404': f'There is nothing in the database with an id of {id}.'}
+
+    return jsonify({'Error': 'Login Failed'})
+
+
+@app.route('/api/v1/skater_page')
+def skater_page():
+    db_skater = term.query(Skater).get(session['user_id'])
+
+    skater = {'id': db_skater.id, 'name': db_skater.name,
+    'tag': db_skater.tag,
+    'skate_spots': [{'id': spot.id, 'name': spot.name,
+    'description': spot.description,
+    'street_name': spot.street_name,
+    'latitude': spot.latitude,
+    'longitude': spot.longitude,
+    'skater_id': spot.skater_id,
+    'photos': [{'url': photo.url} for photo in spot.photos],
+    'rating': [favorite.rating for favorite in spot.favorites].count(True)/
+    len([favorite.rating for favorite in spot.favorites]),
+    'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+    for spot in db_skater.spots]}
+
+    return jsonify(skater)
 
 if __name__ == '__main__':
     app.run(debug=True)
