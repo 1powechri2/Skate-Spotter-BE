@@ -1,4 +1,6 @@
 import db_models
+from werkzeug.security import generate_password_hash, check_password_hash
+from IPython import embed
 
 engine = db_models.engine
 
@@ -8,8 +10,14 @@ db_models.Base.metadata.create_all(engine)
 
 session = db_models.Session()
 
-dood1 = db_models.Skater(name='Dod Gobson', tag='Skate Hard, Die Young')
-dood2 = db_models.Skater(name='Johnny Razors', tag='Embrace fire!')
+password1 = generate_password_hash('baller420')
+password2 = generate_password_hash('bulletHead666')
+
+dood1 = db_models.Skater(name='Dod Gobson', tag='Skate Hard, Die Young',
+email='www.skate_dood1@thrasher_mag.com', password=password1)
+
+dood2 = db_models.Skater(name='Johnny Razors', tag='Embrace fire!',
+email='www.skate_dood2@thrasher_mag.com', password=password2)
 
 session.add_all([dood1, dood2])
 session.commit()

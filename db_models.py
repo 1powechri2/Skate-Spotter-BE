@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine, Integer, String, Column, Float, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+import os
 
-# db_uri = 'postgres://cbykbzbefhmsav:4a2a6f721e80986df053193b3832e8dc2a25ca137e1182db9539ee148d0c4ecd@ec2-54-243-46-32.compute-1.amazonaws.com:5432/d61bemsrv7ku14'
+# db_uri = os.environ('DATABASE_URL')
 db_uri = 'postgresql://dada:sphyack1@localhost/skate_spotting'
 
 engine = create_engine(db_uri)
@@ -34,6 +35,8 @@ class Skater(Base):
     __tablename__ = 'skater'
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
+    email = Column(String(80), nullable=False)
+    password = Column(String(128), nullable=False)
     tag = Column(String(255))
 
     spots = relationship('SkateSpot')

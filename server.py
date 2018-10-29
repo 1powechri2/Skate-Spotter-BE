@@ -1,8 +1,9 @@
-from flask import Flask, request, render_template
-from flask import jsonify
+from flask import Flask, request, render_template, jsonify
 import db_models
 from db_models import SkateSpot, Skater, Photo, Favorites
 from IPython import embed
+import json
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -51,32 +52,34 @@ def get_spot(id=1):
 
     return jsonify(spot)
 
-@app.route('/api/v1/skaters')
-def get_skaters():
-    skaters = session.query(Skater).all()
+@app.route('/api/v1/skaters', methods=['GET', 'POST'])
+def request_skaters():
+    if request.method == 'GET':
+        skaters = session.query(Skater).all()
 
-    dudes = [{'id': skater.id, 'name': skater.name,
-    'tag': skater.tag,
+        dudes = [{'id': skater.id, 'name': skater.name,
+        'tag': skater.tag,
+        'skate_spots': [{'id': spot.id, 'name': spot.name,
+        'description': spot.description,
+        'street_name': spot.street_name,
+        'latitude': spot.latitude,
+        'longitude': spot.longitude,
+        'skater_id': spot.skater_id,
+        'photos': [{'url': photo.url} for photo in spot.photos],
+        'rating': [favorite.rating for favorite in spot.favorites].count(True)/
+        len([favorite.rating for favorite in spot.favorites]),
+        'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+        for spot in skater.spots]}
+        for skater in skaters]
 
-    'skate_spots': [{'id': spot.id, 'name': spot.name,
-    'description': spot.description,
-    'street_name': spot.street_name,
-    'latitude': spot.latitude,
-    'longitude': spot.longitude,
-    'skater_id': spot.skater_id,
-    'photos': [{'url': photo.url} for photo in spot.photos],
-    'rating': [favorite.rating for favorite in spot.favorites].count(True)/
-    len([favorite.rating for favorite in spot.favorites]),
-    'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
-    for spot in skater.spots]}
-    for skater in skaters]
-
-    return jsonify(dudes)
+        return jsonify(dudes)
+    elif request.method == 'POST':
+        skater_json = json.loads(request.data)
 
 @app.route('/api/v1/skaters/<int:id>')
 def get_skater(id=1):
     skater = session.query(Skater).get(id)
-
+    embed()
     if skater != None:
         dude = {'id': skater.id, 'name': skater.name,
         'tag': skater.tag,
@@ -95,6 +98,16 @@ def get_skater(id=1):
         dude = {'404': f'There is nothing in the database with an id of {id}.'}
 
     return jsonify(dude)
+
+@app.route('/api/v1/sign_in', methods=['POST'])
+def create_skater():
+    skater_json = json.loads(request.data)
+    password = generate_password_hash(skater_json['password'])
+    skater = Skater(name=skater_json['name'] , tag=skater_json['tag'],
+    email=skater_json['email'], password=password)
+    session.add(skater)
+    session.commit()
+    return jsonify(skater)
 
 if __name__ == '__main__':
     app.run(debug=True)
