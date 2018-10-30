@@ -2,13 +2,14 @@ from flask import Flask, request, render_template, jsonify, redirect, url_for, s
 from db_models import SkateSpot, Skater, Photo, Favorites
 from IPython import embed
 from werkzeug.security import generate_password_hash, check_password_hash
+from os import environ
 import db_models
 import json
 import os
 
 app = Flask(__name__)
-
-app.config['SECRET_KEY'] = os.urandom(24)
+secret_key = environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = secret_key
 
 term = db_models.Session()
 
@@ -123,14 +124,15 @@ def login_skater():
         skater_json = json.loads(request.data)
         skater = term.query(Skater).filter(Skater.name == skater_json['name'])
 
-        if check_password_hash(skater[0].password, skater_json['password']) == True:
-            session['user_id'] = skater[0].id
-
-            return redirect(url_for('skater_page'))
+        if not skater.all():
+            return jsonify({'Error': 'Could Not Find That User Name'})
         else:
-            {'404': f'There is nothing in the database with an id of {id}.'}
+            if check_password_hash(skater[0].password, skater_json['password']) == True:
+                session['user_id'] = skater[0].id
 
-        return jsonify({'Error': 'Login Failed'})
+                return redirect(url_for('skater_page'))
+            else:
+                return jsonify({'Error': 'You Have Entered The Wrong Password.'})
 
 
 @app.route('/api/v1/skater_page')
