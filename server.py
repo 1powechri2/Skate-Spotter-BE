@@ -54,29 +54,26 @@ def get_spot(id=1):
 
     return jsonify(spot)
 
-@app.route('/api/v1/skaters', methods=['GET', 'POST'])
+@app.route('/api/v1/skaters', methods=['GET'])
 def request_skaters():
-    if request.method == 'GET':
-        skaters = term.query(Skater).all()
+    skaters = term.query(Skater).all()
 
-        dudes = [{'id': skater.id, 'name': skater.name,
-        'tag': skater.tag,
-        'skate_spots': [{'id': spot.id, 'name': spot.name,
-        'description': spot.description,
-        'street_name': spot.street_name,
-        'latitude': spot.latitude,
-        'longitude': spot.longitude,
-        'skater_id': spot.skater_id,
-        'photos': [{'url': photo.url} for photo in spot.photos],
-        'rating': [favorite.rating for favorite in spot.favorites].count(True)/
-        len([favorite.rating for favorite in spot.favorites]),
-        'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
-        for spot in skater.spots]}
-        for skater in skaters]
+    dudes = [{'id': skater.id, 'name': skater.name,
+    'tag': skater.tag,
+    'skate_spots': [{'id': spot.id, 'name': spot.name,
+    'description': spot.description,
+    'street_name': spot.street_name,
+    'latitude': spot.latitude,
+    'longitude': spot.longitude,
+    'skater_id': spot.skater_id,
+    'photos': [{'url': photo.url} for photo in spot.photos],
+    'rating': [favorite.rating for favorite in spot.favorites].count(True)/
+    len([favorite.rating for favorite in spot.favorites]),
+    'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+    for spot in skater.spots]}
+    for skater in skaters]
 
-        return jsonify(dudes)
-    elif request.method == 'POST':
-        skater_json = json.loads(request.data)
+    return jsonify(dudes)
 
 @app.route('/api/v1/skaters/<int:id>')
 def get_skater(id=1):
