@@ -195,5 +195,26 @@ def post_spot():
     else:
         return jsonify({'Error': 'Sign Up or Log In To Post Spots'})
 
+@app.route('/api/v1/delete_spot/<int:id>', methods=['DELETE'])
+def delete_spot(id):
+    if 'user_id' in session:
+        favorites = term.query(Favorites).filter(Favorites.skater_id == session['user_id'], Favorites.spot_id == id)
+        photos = term.query(Photo).filter(Photo.spot_id == id)
+        spot = term.query(SkateSpot).get(id)
+
+        if spot.skater_id == session['user_id']:
+            for favorite in favorites.all():
+                term.delete(favorite)
+            for photo in photos.all():
+                term.delete(photo)
+            term.delete(spot)
+            term.commit()
+
+            return jsonify({'Success': 'The Selected Spot has Been Deleted'})
+        else:
+            return jsonify({'Error': 'This Is Not Your Spot To Delete'})
+    else:
+        return jsonify({'Error': 'Your Are Not Signed Up To Do That'})
+
 if __name__ == '__main__':
     app.run(debug=True)
