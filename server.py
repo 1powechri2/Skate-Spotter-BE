@@ -7,6 +7,7 @@ import json
 import os
 
 app = Flask(__name__)
+
 app.config['SECRET_KEY'] = os.urandom(24)
 
 term = db_models.Session()
@@ -214,4 +215,4 @@ def delete_spot(id):
         return jsonify({'Error': 'Your Are Not Signed Up To Do That'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
