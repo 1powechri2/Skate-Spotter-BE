@@ -47,15 +47,3 @@ spot_id=spot2.id)
 
 session.add_all([photo1, photo2, photo3, photo4])
 session.commit()
-
-favorite1 = db_models.Favorites(skater_id=dood1.id,
-spot_id=spot1.id, rating=True)
-
-favorite2 = db_models.Favorites(skater_id=dood1.id,
-spot_id=spot2.id, rating=True)
-
-favorite3 = db_models.Favorites(skater_id=dood2.id,
-spot_id=spot2.id, rating=False)
-
-session.add_all([favorite1, favorite2, favorite3])
-session.commit()

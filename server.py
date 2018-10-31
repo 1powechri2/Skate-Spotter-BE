@@ -28,10 +28,7 @@ def get_spots():
     'latitude': spot.latitude,
     'longitude': spot.longitude,
     'skater_id': spot.skater_id,
-    'photos': [{'url': photo.url} for photo in spot.photos],
-    'rating': [favorite.rating for favorite in spot.favorites].count(True)/
-    len([favorite.rating for favorite in spot.favorites]),
-    'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+    'photos': [{'url': photo.url} for photo in spot.photos]}
     for spot in skater_spots]
 
     return jsonify(spots)
@@ -47,10 +44,7 @@ def get_spot(id=1):
         'latitude': skater_spot.latitude,
         'longitude': skater_spot.longitude,
         'skater_id': skater_spot.skater_id,
-        'photos': [{'url': photo.url} for photo in skater_spot.photos],
-        'rating': [favorite.rating for favorite in skater_spot.favorites].count(True)/
-        len([favorite.rating for favorite in skater_spot.favorites]),
-        'number_of_ratings': len([favorite.rating for favorite in skater_spot.favorites])}
+        'photos': [{'url': photo.url} for photo in skater_spot.photos]}
     else:
         spot = {'404': f'There is nothing in the database with an id of {id}.'}
 
@@ -67,10 +61,7 @@ def request_skaters():
     'latitude': spot.latitude,
     'longitude': spot.longitude,
     'skater_id': spot.skater_id,
-    'photos': [{'url': photo.url} for photo in spot.photos],
-    'rating': [favorite.rating for favorite in spot.favorites].count(True)/
-    len([favorite.rating for favorite in spot.favorites]),
-    'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+    'photos': [{'url': photo.url} for photo in spot.photos]}
     for spot in skater.spots]}
     for skater in skaters]
 
@@ -88,10 +79,7 @@ def get_skater(id=1):
         'latitude': spot.latitude,
         'longitude': spot.longitude,
         'skater_id': spot.skater_id,
-        'photos': [{'url': photo.url} for photo in spot.photos],
-        'rating': [favorite.rating for favorite in spot.favorites].count(True)/
-        len([favorite.rating for favorite in spot.favorites]),
-        'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+        'photos': [{'url': photo.url} for photo in spot.photos]}
         for spot in skater.spots]}
     else:
         dude = {'404': f'There is nothing in the database with an id of {id}.'}
@@ -145,15 +133,27 @@ def skater_page():
         'latitude': spot.latitude,
         'longitude': spot.longitude,
         'skater_id': spot.skater_id,
-        'photos': [{'url': photo.url} for photo in spot.photos],
-        'rating': [favorite.rating for favorite in spot.favorites].count(True)/
-        len([favorite.rating for favorite in spot.favorites]),
-        'number_of_ratings': len([favorite.rating for favorite in spot.favorites])}
+        'photos': [{'url': photo.url} for photo in spot.photos]}
         for spot in db_skater.spots]}
 
         return jsonify(skater)
     else:
         return jsonify({'Error': 'Please Sign Up or Log In to Create a Profile'})
+
+@app.route('/api/v1/update_skater', methods=['PATCH'])
+def update_skater():
+    if 'user_id' in session:
+        skater_json = json.loads(request.data)
+        password = generate_password_hash(skater_json['password'])
+
+        term.query(Skater).filter(Skater.id == session['user_id']).update({Skater.name: skater_json['name'],
+        Skater.email: skater_json['name'], Skater.tag: skater_json['tag'],
+        Skater.password: password}, synchronize_session=False)
+        term.commit
+
+        return redirect(url_for('skater_page'))
+    else:
+        return jsonify({'Error': 'You are not signed in.'})
 
 @app.route('/api/v1/new_spot', methods=['POST'])
 def post_spot():
@@ -175,32 +175,30 @@ def post_spot():
         term.add(photo)
         term.commit()
 
-        def boolean(rating = spot_json['rating']):
-            if rating == 'True':
-                return True
-            else:
-                return False
-
-        favorite = Favorites(skater_id=session['user_id'],
-        spot_id=spot.id, rating=boolean())
-
-        term.add(favorite)
-        term.commit()
-
         return redirect(url_for('skater_page'))
     else:
         return jsonify({'Error': 'Sign Up or Log In To Post Spots'})
 
+@app.route('/api/v1/update_spot/<int:id>', methods=['PATCH'])
+def update_spot(id):
+    if 'user_id' in session:
+        spot_json = json.loads(request.data)
+
+        term.query(SkateSpot).filter(SkateSpot.id == id).update({SkateSpot.name: spot_json['name'],
+        SkateSpot.description: spot_json['description']}, synchronize_session=False)
+        term.commit
+
+        return redirect(f'/api/v1/spots/{id}')
+    else:
+        return jsonify({'Error': 'You are not signed in.'})
+
 @app.route('/api/v1/delete_spot/<int:id>', methods=['DELETE'])
 def delete_spot(id):
     if 'user_id' in session:
-        favorites = term.query(Favorites).filter(Favorites.skater_id == session['user_id'], Favorites.spot_id == id)
         photos = term.query(Photo).filter(Photo.spot_id == id)
         spot = term.query(SkateSpot).get(id)
 
         if spot.skater_id == session['user_id']:
-            for favorite in favorites.all():
-                term.delete(favorite)
             for photo in photos.all():
                 term.delete(photo)
             term.delete(spot)
