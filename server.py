@@ -46,7 +46,7 @@ def get_spot(id=1):
         'skater_id': skater_spot.skater_id,
         'photos': [{'url': photo.url} for photo in skater_spot.photos]}
     else:
-        spot = {'404': f'There is nothing in the database with an id of {id}.'}
+        spot = {'404': f'There is nothing in the database with an id of {id}.'}, 404
 
     return jsonify(spot)
 
@@ -82,7 +82,7 @@ def get_skater(id=1):
         'photos': [{'url': photo.url} for photo in spot.photos]}
         for spot in skater.spots]}
     else:
-        dude = {'404': f'There is nothing in the database with an id of {id}.'}
+        dude = {'404': f'There is nothing in the database with an id of {id}.'}, 404
 
     return jsonify(dude)
 
@@ -118,8 +118,7 @@ def login_skater():
 
                 return redirect(url_for('skater_page'))
             else:
-                return jsonify({'Error': 'You Have Entered The Wrong Password.'})
-
+                return jsonify({'Error': 'You Have Entered The Wrong Password.'}), 406
 
 @app.route('/api/v1/skater_page')
 def skater_page():
@@ -138,7 +137,7 @@ def skater_page():
 
         return jsonify(skater)
     else:
-        return jsonify({'Error': 'Please Sign Up or Log In to Create a Profile'})
+        return jsonify({'Error': 'Please Sign Up or Log In to Create a Profile'}), 403
 
 @app.route('/api/v1/update_skater', methods=['PATCH'])
 def update_skater():
@@ -153,7 +152,7 @@ def update_skater():
 
         return redirect(url_for('skater_page'))
     else:
-        return jsonify({'Error': 'You are not signed in.'})
+        return jsonify({'Error': 'You are not signed in.'}), 403
 
 @app.route('/api/v1/new_spot', methods=['POST'])
 def post_spot():
@@ -177,7 +176,7 @@ def post_spot():
 
         return redirect(url_for('skater_page'))
     else:
-        return jsonify({'Error': 'Sign Up or Log In To Post Spots'})
+        return jsonify({'Error': 'Sign Up or Log In To Post Spots'}), 403
 
 @app.route('/api/v1/update_spot/<int:id>', methods=['PATCH'])
 def update_spot(id):
@@ -190,7 +189,7 @@ def update_spot(id):
 
         return redirect(f'/api/v1/spots/{id}')
     else:
-        return jsonify({'Error': 'You are not signed in.'})
+        return jsonify({'Error': 'You are not signed in.'}), 406
 
 @app.route('/api/v1/delete_spot/<int:id>', methods=['DELETE'])
 def delete_spot(id):
@@ -206,9 +205,9 @@ def delete_spot(id):
 
             return jsonify({'Success': 'The Selected Spot has Been Deleted'})
         else:
-            return jsonify({'Error': 'This Is Not Your Spot To Delete'})
+            return jsonify({'Error': 'This Is Not Your Spot To Delete'}), 403
     else:
-        return jsonify({'Error': 'Your Are Not Signed Up To Do That'})
+        return jsonify({'Error': 'Your Are Not Signed Up To Do That'}), 403
 
 @app.route('/api/v1/logout')
 def logout_skater():
