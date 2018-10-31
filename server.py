@@ -8,14 +8,16 @@ import json
 import os
 
 app = Flask(__name__)
+
 secret_key = environ.get('SECRET_KEY')
+
 app.config['SECRET_KEY'] = secret_key
 
 term = db_models.Session()
 
 @app.route('/')
 def hello():
-    return 'SKATEBOARDING IS NOT A CRIME'
+    return str(secret_key)
 
 @app.route('/api/v1/spots')
 def get_spots():
