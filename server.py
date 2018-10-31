@@ -23,7 +23,6 @@ def get_spots():
 
     spots = [{'id': spot.id, 'name': spot.name,
     'description': spot.description,
-    'street_name': spot.street_name,
     'latitude': spot.latitude,
     'longitude': spot.longitude,
     'skater_id': spot.skater_id,
@@ -43,7 +42,6 @@ def get_spot(id=1):
     if skater_spot != None:
         spot = {'id': skater_spot.id, 'name': skater_spot.name,
         'description': skater_spot.description,
-        'street_name': skater_spot.street_name,
         'latitude': skater_spot.latitude,
         'longitude': skater_spot.longitude,
         'skater_id': skater_spot.skater_id,
@@ -64,7 +62,6 @@ def request_skaters():
     'tag': skater.tag,
     'skate_spots': [{'id': spot.id, 'name': spot.name,
     'description': spot.description,
-    'street_name': spot.street_name,
     'latitude': spot.latitude,
     'longitude': spot.longitude,
     'skater_id': spot.skater_id,
@@ -86,7 +83,6 @@ def get_skater(id=1):
         'tag': skater.tag,
         'skate_spots': [{'id': spot.id, 'name': spot.name,
         'description': spot.description,
-        'street_name': spot.street_name,
         'latitude': spot.latitude,
         'longitude': spot.longitude,
         'skater_id': spot.skater_id,
@@ -144,7 +140,6 @@ def skater_page():
         'tag': db_skater.tag,
         'skate_spots': [{'id': spot.id, 'name': spot.name,
         'description': spot.description,
-        'street_name': spot.street_name,
         'latitude': spot.latitude,
         'longitude': spot.longitude,
         'skater_id': spot.skater_id,
@@ -165,7 +160,6 @@ def post_spot():
 
         spot = SkateSpot(name=spot_json['name'],
         description=spot_json['description'],
-        street_name=spot_json['street_name'],
         latitude=float(spot_json['latitude']),
         longitude=float(spot_json['longitude']),
         skater_id=session['user_id'])

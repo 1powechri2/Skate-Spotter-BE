@@ -17,7 +17,6 @@ class SkateSpot(Base):
     id = Column(Integer, primary_key=True)
     description = Column(String(255), nullable=False)
     name = Column(String(60), nullable=False)
-    street_name = Column(String(100), nullable=True)
     latitude = Column(Float(Precision=64), nullable=False)
     longitude = Column(Float(Precision=64), nullable=False)
     skater_id = Column(Integer, ForeignKey('skater.id'))
