@@ -1,12 +1,14 @@
 from sqlalchemy import create_engine, Integer, String, Column, Float, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+from os import environ
 import os
 
-db_uri = 'postgresql://dada:sphyack1@localhost/skate_spotting'
-# db_uri = 'postgres://cbykbzbefhmsav:4a2a6f721e80986df053193b3832e8dc2a25ca137e1182db9539ee148d0c4ecd@ec2-54-243-46-32.compute-1.amazonaws.com:5432/d61bemsrv7ku14'
+database_url = environ.get('DATABASE_URL')
+# db_url = 'postgresql://dada:sphyack1@localhost/skate_spotting'
+db_url = database_url
 
-engine = create_engine(db_uri)
+engine = create_engine(db_url)
 
 Session = sessionmaker(engine)
 

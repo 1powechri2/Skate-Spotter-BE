@@ -17,7 +17,7 @@ term = db_models.Session()
 
 @app.route('/')
 def hello():
-    return str(secret_key)
+    return 'SKATEBOARDING IS NOT A CRIME'
 
 @app.route('/api/v1/spots')
 def get_spots():
@@ -211,6 +211,11 @@ def delete_spot(id):
             return jsonify({'Error': 'This Is Not Your Spot To Delete'})
     else:
         return jsonify({'Error': 'Your Are Not Signed Up To Do That'})
+
+@app.route('/api/v1/logout')
+def logout_skater():
+    session.pop('user_id', None)
+    return jsonify({'Success': 'You are logged out'})
 
 if __name__ == '__main__':
     app.run()
