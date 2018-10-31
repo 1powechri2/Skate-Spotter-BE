@@ -104,13 +104,13 @@ def create_skater():
 @app.route('/api/v1/login', methods=['POST'])
 def login_skater():
     if 'user_id' in session:
-        return jsonify({'Error': 'You are already Logged In.'})
+        abort(406)
     else:
         skater_json = json.loads(request.data)
         skater = term.query(Skater).filter(Skater.name == skater_json['name'])
 
         if not skater.all():
-            return jsonify({'Error': 'Could Not Find That User Name'})
+            abort(406)
         else:
             if check_password_hash(skater[0].password, skater_json['password']) == True:
                 session['user_id'] = skater[0].id
