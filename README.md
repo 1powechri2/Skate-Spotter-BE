@@ -11,10 +11,21 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
 
    This endpoint gives you all the spots in the db.
 2. `/api/v1/spots/:id`
-    This endpoint gives you a single spot by spot id.
+
+   This endpoint gives you a single spot by spot id.
 3. `/api/v1/skaters`
-    This endpoint gives you all the skaterboarders in the db.
+
+   This endpoint gives you all the skaterboarders in the db.
 4. `/api/v1/skaters/:id`
-    This endpoint gives you a single skateboarder by id.
+
+   This endpoint gives you a single skateboarder by id.
 5. `/api/v1/sign_up`
-    This endpoint is for new user sign up
+
+   This endpoint is for new user sign up.
+      
+         A user has:
+         
+            1.name
+            2.email
+            3.tag
+            4.password
