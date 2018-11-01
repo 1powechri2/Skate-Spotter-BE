@@ -54,3 +54,36 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
    if a user tries to access this page without logging in an error is sent.
    
 8. `/api/v1/update_skater`
+  
+   This is the update user endpoint where a user can change their information.
+   The form on the front end will have to be populated with the user's current
+   information to avoid any empty values the user doesn't supply.
+   
+         These attributes have to be sent to this endpoint via a PATCH 
+         and they need to be included in the body as JSON like so:
+         
+            { "name": "John Dude the Second",
+            "email": "john.dude@pmail.com",
+            "tag": "rock and roll will never die ever!",
+            "password": "skAterDood318"
+            }
+            
+9. `/api/v1/new_spot`
+
+   This endpoint is where the user submits a new skateboarding spot. A new spot cannot be
+   created unless a user is signed in. When A new spot is created by a signed in user their
+   user id is associated with that spot created.
+   
+         These attributes have to be sent to this endpoint via a POST 
+         and they need to be included in the body as JSON like so:
+         
+         {"name": "The stairs in the park",
+         "description": "10 steps with a clear landing at the bottom",
+         "latitude": 33.123123,
+         "longitude": 133.123123,
+         "photo_url": "www.someurlforajpeg.com"
+         }
+         
+         *This api was designed to work with a React Native front end application
+         which sends latitude and longitude coordinates from the mobile device of 
+         the user, assuming the user is at the specific skate when they submit.
