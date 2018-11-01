@@ -86,4 +86,32 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
          
          *This api was designed to work with a React Native front end application
          which sends latitude and longitude coordinates from the mobile device of 
-         the user, assuming the user is at the specific skate when they submit.
+         the user, assuming the user is at the specific skate spot when they submit.
+         
+10. `/api/v1/update_spot/:id`
+
+   This endpoint is for updating a spot, the spot's id has to be supplied in the url. 
+   As with submitting a new spot, the user has to be logged in and is only able to 
+   update those spots that are associated with their user id.
+   
+         These attributes have to be sent to this endpoint via a PATCH 
+         and they need to be included in the body as JSON like so:
+         
+         {"name": "The stairs in the park by the church",
+         "description": "10 steps with a clear landing at the bottom",
+         }
+         
+11. `/api/v1/delete_spot/:id`
+
+   This is an endpoint to delete a spot. A spot can only be deleted by a user
+   who is logged in and who has created that spot. The spot id has to be included
+   in the url and the http verb DELETE has to be specified.
+   
+12. `/api/v1/logout`
+
+   This endpoint logs out the user from the back end but the browser of the front end app
+   has to be uncached or the cookie it has still stored will confuse the backend app.
+   
+   the cookie stored will confuse the 
+
+   This endpoint logs out the user 
