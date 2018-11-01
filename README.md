@@ -10,5 +10,5 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
 1. `/api/v1/spots`
     This endpoint gives you all the spots in the db.
 2. `/api/v1/spots/:id`
-
+    This endpoint gives you a single spot by spot id.
 
