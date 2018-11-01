@@ -28,7 +28,9 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
             2.email
             3.tag
             4.password
-         These attributes have to be sent to this endpoint via a POST and they need to be included in the body as JSON like            so:
+         These attributes have to be sent to this endpoint via a POST 
+         
+         and they need to be included in the body as JSON like so:
          { "name": "John Dude",
          "email": "john.dude@pmail.com",
          "tag": "rock and roll will never die!",
