@@ -39,3 +39,18 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
             "password": "skAterDood318"
             }
 6. `/api/v1/login`
+
+   This endpoint is for login after a user has signed up.
+   
+         To login in the user provides their name and password which are
+         to this endpoint via a POST and are included in the body as JSON like so:
+         
+            { "name": "John Dude",
+            "password": "skAterDood318"
+            }
+7. `/api/v1/skater_page`
+
+   This endpoint serves the specific user information for a user logged in
+   if a user tries to access this page without logging in an error is sent.
+   
+8. `/api/v1/update_skater`
