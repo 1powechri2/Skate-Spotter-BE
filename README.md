@@ -8,6 +8,6 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
 #### *For Security reasons there is not a link to the deployed db but if you fork and clone this repo you can use these endpoints to create your own skate spot database api and even add more features as well
 
 1. `/api/v1/spots`
-  This endpoint gives you all the spots in the db.
+   This endpoint gives you all the spots in the db.
 
 
