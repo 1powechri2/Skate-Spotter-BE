@@ -111,8 +111,29 @@ Skate-Spotter-BE is an api that interacts with a database designed to store spec
 12. `/api/v1/logout`
 
    This endpoint logs out the user from the back end but the browser of the front end app
-   has to be uncached or the cookie it has still stored will confuse the backend app.
+   has to be uncached or the cookie it has stored will confuse the backend app.
    
-   the cookie stored will confuse the 
+## Working With the App
 
-   This endpoint logs out the user 
+You will need Python Version 3.7.1 and Postgresql
+
+Step 1
+ 
+   Clone this repo.
+   
+Step 2
+
+   Delete the venv file and create a new virtual environment from the root directory.
+   
+Step 3 
+   
+   Run `pip3 intsall -r requirements.txt` from the command line in your root directory.
+   
+Step 4 
+
+   Create a new databse for test and developement in Postgresql using the psql command line interface.
+   
+Step 5
+
+   In db_models.py and db_test_models.py set the db_url variable to your developement and test database urls respectively.
+   If this is confusing you can consult the [SQL Alchemy documentation.(https://docs.sqlalchemy.org/en/latest/core/engines.html)
