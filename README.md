@@ -137,3 +137,14 @@ Step 5
 
    In db_models.py and db_test_models.py set the db_url variable to your developement and test database urls respectively.
    If this is confusing you can consult the [SQL Alchemy documentation](https://docs.sqlalchemy.org/en/latest/core/engines.html).
+   
+Step 6
+
+   Run `python3 db_test.py` from the command line and see if you get a passing test.
+   
+*Notes*
+
+   There are several lines of code here that were written for deployment to a Heroku server. These include line 7 and 9 
+   in db_models.py which are used to connect to a Heroku Postgresql url, lines 12 and 14 in server.py which were used to 
+   store a secret key for Flask session in a Heroku env variable and lastly the procfile which is used to run server.py
+   in Heroku.
