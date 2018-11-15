@@ -136,4 +136,4 @@ Step 4
 Step 5
 
    In db_models.py and db_test_models.py set the db_url variable to your developement and test database urls respectively.
-   If this is confusing you can consult the [SQL Alchemy documentation.(https://docs.sqlalchemy.org/en/latest/core/engines.html)
+   If this is confusing you can consult the [SQL Alchemy documentation](https://docs.sqlalchemy.org/en/latest/core/engines.html).
