@@ -184,7 +184,7 @@ def update_spot(id):
 
         term.query(SkateSpot).filter(SkateSpot.id == id).update({SkateSpot.name: spot_json['name'],
         SkateSpot.description: spot_json['description']}, synchronize_session=False)
-        term.commit
+        term.commit()
 
         return redirect(f'/api/v1/spots/{id}')
     else:

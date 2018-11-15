@@ -4,9 +4,9 @@ from sqlalchemy.orm import relationship, sessionmaker
 from os import environ
 import os
 
-database_url = environ.get('DATABASE_URL')
-# db_url = 'postgresql://dada:sphyack1@localhost/skate_spotting'
-db_url = database_url
+# database_url = environ.get('DATABASE_URL')
+db_url = 'postgresql://dada:sphyack1@localhost/skate_spotting'
+# db_url = database_url
 
 engine = create_engine(db_url)
 

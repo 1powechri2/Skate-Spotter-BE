@@ -10,10 +10,10 @@ db_models.Base.metadata.create_all(engine)
 
 session = db_models.Session()
 
-password1 = generate_password_hash('baller420')
-password2 = generate_password_hash('bulletHead666')
+password1 = generate_password_hash('jfhf')
+password2 = generate_password_hash('nhfgfgfnb')
 
-dood1 = db_models.Skater(name='Dod Gobson', tag='Skate Hard, Die Young',
+dood1 = db_models.Skater(name='Brian Illson', tag='Skate Hard, Die Young',
 email='www.skate_dood1@thrasher_mag.com', password=password1)
 
 dood2 = db_models.Skater(name='Johnny Razors', tag='Embrace fire!',
